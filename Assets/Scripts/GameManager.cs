@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
+using System;
+using Random = UnityEngine.Random;
+using System.Runtime.InteropServices.WindowsRuntime;
+
+
 
 
 #if UNITY_EDITOR
@@ -10,6 +14,7 @@ using UnityEditor;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public Action OnEatApple;
 
     readonly public List<Vector2Int> directions = new List<Vector2Int> {
         Vector2Int.left,
@@ -22,10 +27,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject snackTailPrefab;
     [SerializeField] GameObject snackBodyPrefab;
     [SerializeField] GameObject snackCornerPrefab;
+    [SerializeField] GameObject ApplePrefab;
 
     private BaseNode[,] gridMap;
     private float moveTimer = 0;
     private Vector2Int? inputDirection = null;
+    private GameObject currApple;
 
     [SerializeField] private GameSetting setting;
     public GameSetting Setting => setting;
@@ -48,6 +55,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start() {
         RespwanSnack();
+        RespawnApple();
     }
 
     public void RespwanSnack(){
@@ -140,9 +148,15 @@ public class GameManager : MonoBehaviour
             newPos.x %= setting.rows;
             newPos.y %= setting.cols;
         }
-        if (gridMap[newPos.x, newPos.y] is SnackNode){
-            Debug.Log("Game Over");
-            return;
+
+        if (gridMap[newPos.x, newPos.y] != null){
+            if (gridMap[newPos.x, newPos.y] is SnackTail)
+            {
+                Debug.Log("Game Over");
+                return;
+            }
+            else if (gridMap[newPos.x, newPos.y].gameObject.tag == "Apple")
+                OnEatApple?.Invoke();
         }
 
         GameObject gameObj;
@@ -185,5 +199,41 @@ public class GameManager : MonoBehaviour
         foreach (var node in nodes){
             node.transform.position = Grid2WorldPosition(node.gridPos.x, node.gridPos.y);
         }
+    }
+
+    public void RespawnApple(){
+        if (currApple != null)
+            Destroy(currApple);
+
+        int row, col;
+        do{
+            row = Random.Range(0, setting.rows);
+            col = Random.Range(0, setting.cols);
+        }while(gridMap[row, col] != null);
+
+        currApple = Instantiate(ApplePrefab, Grid2WorldPosition(row, col), Quaternion.identity);
+        var apple = currApple.GetComponent<BaseNode>();
+        gridMap[row, col] = apple;
+        var render = currApple.GetComponent<SpriteRenderer>();
+        // Four sprite is same, no matter what direction
+        render.sprite = apple.up;
+    } 
+    public void DestoryOldApple(){
+        if (currApple == null)
+            return;
+        
+        var gidPos = currApple.GetComponent<BaseNode>().gridPos;
+        gridMap[gidPos.x, gidPos.y] = null;
+        Destroy(currApple.gameObject);
+    }
+    public void EatAppleHandler(){
+        DestoryOldApple();
+        RespawnApple();
+    }
+    private void OnEnable() {
+        OnEatApple += EatAppleHandler;
+    }
+    private void OnDisable() {
+        OnEatApple -= EatAppleHandler;
     }
 }

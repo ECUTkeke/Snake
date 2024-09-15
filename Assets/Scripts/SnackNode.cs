@@ -29,7 +29,4 @@ public class SnackNode : BaseNode
 
         }
     }
-#if DEBUG
-    public Vector2Int gridPos;
-#endif
 }

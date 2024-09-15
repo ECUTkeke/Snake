@@ -248,7 +248,8 @@ MonoBehaviour:
   snackHeadPrefab: {fileID: 1640354957429931771, guid: 85833e43922ac3043939c9eec7d9a608, type: 3}
   snackTailPrefab: {fileID: 5411089318115057066, guid: 7c2812febe10c2547b7d9ac27524fabf, type: 3}
   snackBodyPrefab: {fileID: 5432022579224832822, guid: 01e26ca860342f94b9a6a508110ba2bb, type: 3}
-  snackCornerPrefab: {fileID: 0}
+  snackCornerPrefab: {fileID: 2251689181342866605, guid: 22aaeff5f47c7d94295aee8bdad1830e, type: 3}
+  ApplePrefab: {fileID: 2281313393185372529, guid: 819047c418b8a2f4fa05292bb6c0acc2, type: 3}
   setting: {fileID: 11400000, guid: 5880d91bcbe6e0644a803cfa0d001c88, type: 2}
 --- !u!4 &1808311349
 Transform:

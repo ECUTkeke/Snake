@@ -10,8 +10,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3776768235962669079, guid: 1ec45aad17504cb4ea90c0fb0cd274a4, type: 3}
       propertyPath: m_Name
-      value: BaseNode
+      value: Apple
       objectReference: {fileID: 0}
+    - target: {fileID: 3776768235962669079, guid: 1ec45aad17504cb4ea90c0fb0cd274a4, type: 3}
+      propertyPath: m_TagString
+      value: Apple
+      objectReference: {fileID: 0}
+    - target: {fileID: 5318986166550872318, guid: 1ec45aad17504cb4ea90c0fb0cd274a4, type: 3}
+      propertyPath: up
+      value: 
+      objectReference: {fileID: 21300000, guid: 568dd7a5750b3c748849129253e5f3d2, type: 3}
+    - target: {fileID: 5318986166550872318, guid: 1ec45aad17504cb4ea90c0fb0cd274a4, type: 3}
+      propertyPath: down
+      value: 
+      objectReference: {fileID: 21300000, guid: 568dd7a5750b3c748849129253e5f3d2, type: 3}
+    - target: {fileID: 5318986166550872318, guid: 1ec45aad17504cb4ea90c0fb0cd274a4, type: 3}
+      propertyPath: left
+      value: 
+      objectReference: {fileID: 21300000, guid: 568dd7a5750b3c748849129253e5f3d2, type: 3}
+    - target: {fileID: 5318986166550872318, guid: 1ec45aad17504cb4ea90c0fb0cd274a4, type: 3}
+      propertyPath: right
+      value: 
+      objectReference: {fileID: 21300000, guid: 568dd7a5750b3c748849129253e5f3d2, type: 3}
     - target: {fileID: 6826095905185792184, guid: 1ec45aad17504cb4ea90c0fb0cd274a4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

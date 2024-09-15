@@ -6,4 +6,6 @@ public class BaseNode: MonoBehaviour
     public Sprite down;
     public Sprite left;
     public Sprite right;
+
+    public Vector2Int gridPos;
 }
