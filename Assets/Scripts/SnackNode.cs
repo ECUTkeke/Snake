@@ -6,8 +6,8 @@ public class SnackNode : BaseNode
 {
     public SnackNode prev;
     public SnackNode next;
-    private Vector2Int _direction;
-    public Vector2Int Direction
+    protected Vector2Int _direction;
+    public virtual Vector2Int Direction
     {
         get => _direction;
         set

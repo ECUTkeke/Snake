@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3776768235962669079, guid: 1ec45aad17504cb4ea90c0fb0cd274a4, type: 3}
       propertyPath: m_Name
-      value: BaseNode
+      value: SnackCorner
       objectReference: {fileID: 0}
     - target: {fileID: 6826095905185792184, guid: 1ec45aad17504cb4ea90c0fb0cd274a4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -52,8 +52,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5318986166550872318, guid: 1ec45aad17504cb4ea90c0fb0cd274a4, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3776768235962669079, guid: 1ec45aad17504cb4ea90c0fb0cd274a4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8490715011684860611}
   m_SourcePrefab: {fileID: 100100000, guid: 1ec45aad17504cb4ea90c0fb0cd274a4, type: 3}
+--- !u!1 &2251689181342866605 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3776768235962669079, guid: 1ec45aad17504cb4ea90c0fb0cd274a4, type: 3}
+  m_PrefabInstance: {fileID: 3122786548840432826}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8490715011684860611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2251689181342866605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b013bf866f225d644a9aef500867b235, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  up: {fileID: 0}
+  down: {fileID: 0}
+  left: {fileID: 0}
+  right: {fileID: 0}
+  prev: {fileID: 0}
+  next: {fileID: 0}
+  gridPos: {x: 0, y: 0}
+  leftUp: {fileID: 21300000, guid: 2eb360ed5f0b9f6439d2d7467241db19, type: 3}
+  leftDown: {fileID: 21300000, guid: 92c03c7a1a3d0854ba36c563b5ce1145, type: 3}
+  rightUp: {fileID: 21300000, guid: 040484fcd3fd902408382ca1ba1bc409, type: 3}
+  rightDown: {fileID: 21300000, guid: c6b10a5fa0d19d84cb018f6b44c753d9, type: 3}

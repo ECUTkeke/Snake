@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -23,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     private BaseNode[,] gridMap;
     private float moveTimer = 0;
+    private Vector2Int? inputDirection = null;
 
     [SerializeField] private GameSetting setting;
     public GameSetting Setting => setting;
@@ -93,11 +96,30 @@ public class GameManager : MonoBehaviour
     private void Update() {
         if (setting.moveSpeed == 0)
             return;
+
+        var currDirection = SnackHead.Instance.Direction;
+        if (inputDirection == null)
+        {
+            if (Input.GetKeyDown(KeyCode.W) && currDirection != Vector2Int.down)
+                inputDirection = Vector2Int.up;
+            else if (Input.GetKeyDown(KeyCode.S) && currDirection != Vector2Int.up)
+                inputDirection = Vector2Int.down;
+            else if (Input.GetKeyDown(KeyCode.A) && currDirection != Vector2Int.right)
+                inputDirection = Vector2Int.left;
+            else if (Input.GetKeyDown(KeyCode.D) && currDirection != Vector2Int.left)
+                inputDirection = Vector2Int.right;
+        }
+
+
         float moveInterval = 1 / setting.moveSpeed;        
         moveTimer += Time.deltaTime;
         if (moveTimer >= moveInterval){
+            if (inputDirection != null){
+                SnackHead.Instance.Direction = inputDirection.Value;
+            }
             moveTimer = 0;
             MoveSnack();
+            inputDirection = null;
         }
     }
 
@@ -123,7 +145,17 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        var gameObj = Instantiate(snackBodyPrefab, Grid2WorldPosition(oldPos.x, oldPos.y), Quaternion.identity);
+        GameObject gameObj;
+        if (head.Direction != head.next.Direction)
+        {
+            gameObj = Instantiate(snackCornerPrefab, Grid2WorldPosition(oldPos.x, oldPos.y), Quaternion.identity);
+            var corner = gameObj.GetComponent<SnackCorner>();
+            corner.SetRelation(head, head.next);
+        }
+        else
+        {
+            gameObj = Instantiate(snackBodyPrefab, Grid2WorldPosition(oldPos.x, oldPos.y), Quaternion.identity);
+        }
         var body = gameObj.GetComponent<SnackNode>();
         body.Direction = head.Direction;
         body.gridPos = oldPos;
@@ -140,11 +172,13 @@ public class GameManager : MonoBehaviour
         tail.Direction = newTailDir;
         tail.gridPos = newTailPos;
 
-        RefreshPosition(new SnackNode[]{head, body, tail});
+        if (tail.prev == body)
+            RefreshPosition(new SnackNode[]{head, tail});
+        else 
+            RefreshPosition(new SnackNode[]{head, body, tail});
 
-        if (tail.prev != head){
+        if (tail.prev != head)
             SnackListHandler.Remove(tail.prev);
-        }
     }
 
     private void RefreshPosition(SnackNode[] nodes){
