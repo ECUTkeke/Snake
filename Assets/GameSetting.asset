@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 684488564917aab42a27e29283d51066, type: 3}
   m_Name: GameSetting
   m_EditorClassIdentifier: 
-  scale: 0.5
-  rows: 2
-  cols: 2
+  scale: 0.25
+  rows: 20
+  cols: 25

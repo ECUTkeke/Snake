@@ -225,6 +225,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1808311349}
   - component: {fileID: 1808311348}
+  - component: {fileID: 1808311350}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -246,6 +247,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snackHeadPrefab: {fileID: 1640354957429931771, guid: 85833e43922ac3043939c9eec7d9a608, type: 3}
   snackTailPrefab: {fileID: 5411089318115057066, guid: 7c2812febe10c2547b7d9ac27524fabf, type: 3}
+  snackBodyPrefab: {fileID: 5432022579224832822, guid: 01e26ca860342f94b9a6a508110ba2bb, type: 3}
+  snackCornerPrefab: {fileID: 0}
   setting: {fileID: 11400000, guid: 5880d91bcbe6e0644a803cfa0d001c88, type: 2}
 --- !u!4 &1808311349
 Transform:
@@ -262,6 +265,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1808311350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808311347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3899062321d0945449881ec7a94ea825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

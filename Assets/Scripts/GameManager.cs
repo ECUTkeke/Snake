@@ -18,8 +18,11 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject snackHeadPrefab;
     [SerializeField] GameObject snackTailPrefab;
+    [SerializeField] GameObject snackBodyPrefab;
+    [SerializeField] GameObject snackCornerPrefab;
 
     private BaseNode[,] gridMap;
+    private float moveTimer = 0;
 
     [SerializeField] private GameSetting setting;
     public GameSetting Setting => setting;
@@ -27,6 +30,10 @@ public class GameManager : MonoBehaviour
     public bool CheckOutOfBounds(int row, int col){
         return row < 0 || row >= setting.rows || col < 0 || col >= setting.cols;
     }
+
+    // This project require every sprite as a square in 1 * 1 ratio after pixels transform to untiy unit
+
+    // Dont forget change the PPU of sprite to correct, otherwise the scale will not be correct
     public Vector2 Grid2WorldPosition(int row, int col){
         var offset = new Vector2(setting.cols, setting.rows) / 2;
 
@@ -37,8 +44,6 @@ public class GameManager : MonoBehaviour
         gridMap = new BaseNode[setting.rows, setting.cols];
     }
     private void Start() {
-        var a = Grid2WorldPosition(0, 0);
-        var b = Grid2WorldPosition(0, 1);
         RespwanSnack();
     }
 
@@ -59,20 +64,15 @@ public class GameManager : MonoBehaviour
         var head = headObj.GetComponent<SnackHead>();
         gridMap[headRow, headCol] = head;
         head.Direction = direction;
-#if DEBUG
         head.gridPos = new Vector2Int(headRow, headCol);
-#endif
 
         var tailObj = Instantiate(snackTailPrefab, Grid2WorldPosition(tailRow, tailCol), Quaternion.identity);
         var tail = tailObj.GetComponent<SnackTail>();
         gridMap[tailRow, tailCol] = tail;
         tail.Direction = direction;
-#if DEBUG
         tail.gridPos = new Vector2Int(tailRow, tailCol);
-#endif
 
-        head.next = tail;
-        tail.prev = head;
+        SnackListHandler.Insert(head, tail);
     }
 
 #if UNITY_EDITOR
@@ -89,4 +89,67 @@ public class GameManager : MonoBehaviour
         }
     }
 #endif
+
+    private void Update() {
+        if (setting.moveSpeed == 0)
+            return;
+        float moveInterval = 1 / setting.moveSpeed;        
+        moveTimer += Time.deltaTime;
+        if (moveTimer >= moveInterval){
+            moveTimer = 0;
+            MoveSnack();
+        }
+    }
+
+    private void MoveSnack(){
+        var tail = SnackTail.Instance;
+        var newTailPos = tail.prev.gridPos;
+        var newTailDir = tail.prev.Direction;
+
+        var head = SnackHead.Instance;
+        var oldPos = head.gridPos;
+        var newPos = head.gridPos + new Vector2Int(head.Direction.y, head.Direction.x);
+        if (CheckOutOfBounds(newPos.x, newPos.y)){
+            if (newPos.x < 0)
+                newPos.x += setting.rows;
+            if (newPos.y < 0)
+                newPos.y += setting.cols;
+            
+            newPos.x %= setting.rows;
+            newPos.y %= setting.cols;
+        }
+        if (gridMap[newPos.x, newPos.y] is SnackNode){
+            Debug.Log("Game Over");
+            return;
+        }
+
+        var gameObj = Instantiate(snackBodyPrefab, Grid2WorldPosition(oldPos.x, oldPos.y), Quaternion.identity);
+        var body = gameObj.GetComponent<SnackNode>();
+        body.Direction = head.Direction;
+        body.gridPos = oldPos;
+
+        SnackListHandler.Insert(head, body);
+
+        head.gridPos = newPos;
+
+        gridMap[newPos.x, newPos.y] = head;
+        gridMap[oldPos.x, oldPos.y] = body;
+        gridMap[newTailPos.x, newTailPos.y] = tail; 
+        gridMap[tail.gridPos.x, tail.gridPos.y] = null;
+
+        tail.Direction = newTailDir;
+        tail.gridPos = newTailPos;
+
+        RefreshPosition(new SnackNode[]{head, body, tail});
+
+        if (tail.prev != head){
+            SnackListHandler.Remove(tail.prev);
+        }
+    }
+
+    private void RefreshPosition(SnackNode[] nodes){
+        foreach (var node in nodes){
+            node.transform.position = Grid2WorldPosition(node.gridPos.x, node.gridPos.y);
+        }
+    }
 }
