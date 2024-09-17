@@ -155,6 +155,7 @@ public class GameManager : MonoBehaviour
             if (gridMap[newPos.x, newPos.y] is SnackNode)
             {
                 Debug.Log("Game Over");
+                head.Direction = head.next.Direction;
                 return;
             }
             else if (gridMap[newPos.x, newPos.y].gameObject.tag == "Apple"){
@@ -192,10 +193,7 @@ public class GameManager : MonoBehaviour
         tail.Direction = newTailDir;
         tail.gridPos = newTailPos;
 
-        if (tail.prev == body)
-            RefreshPosition(new SnackNode[]{head, tail});
-        else 
-            RefreshPosition(new SnackNode[]{head, body, tail});
+        RefreshPosition(new SnackNode[]{head, tail});
 
         if (tail.prev != head && !eatedApple)
             SnackListHandler.Remove(tail.prev);
