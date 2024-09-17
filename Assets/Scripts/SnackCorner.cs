@@ -24,11 +24,11 @@ public class SnackCorner : SnackNode
 
         if (prev.Direction == Vector2Int.left && next.Direction == Vector2Int.up)
         {
-            spriteRenderer.sprite = rightDown;
+            spriteRenderer.sprite = rightUp;
         }
         else if (prev.Direction == Vector2Int.left && next.Direction == Vector2Int.down)
         {
-            spriteRenderer.sprite = rightUp;
+            spriteRenderer.sprite = rightDown;
         }
         else if (prev.Direction == Vector2Int.right && next.Direction == Vector2Int.up)
         {

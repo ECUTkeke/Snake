@@ -132,6 +132,8 @@ public class GameManager : MonoBehaviour
     }
 
     private void MoveSnack(){
+        var eatedApple = false;
+
         var tail = SnackTail.Instance;
         var newTailPos = tail.prev.gridPos;
         var newTailDir = tail.prev.Direction;
@@ -150,13 +152,17 @@ public class GameManager : MonoBehaviour
         }
 
         if (gridMap[newPos.x, newPos.y] != null){
-            if (gridMap[newPos.x, newPos.y] is SnackTail)
+            if (gridMap[newPos.x, newPos.y] is SnackNode)
             {
                 Debug.Log("Game Over");
                 return;
             }
-            else if (gridMap[newPos.x, newPos.y].gameObject.tag == "Apple")
+            else if (gridMap[newPos.x, newPos.y].gameObject.tag == "Apple"){
                 OnEatApple?.Invoke();
+                newTailDir = tail.Direction;
+                newTailPos = tail.gridPos;
+                eatedApple = true;
+            }
         }
 
         GameObject gameObj;
@@ -180,8 +186,8 @@ public class GameManager : MonoBehaviour
 
         gridMap[newPos.x, newPos.y] = head;
         gridMap[oldPos.x, oldPos.y] = body;
-        gridMap[newTailPos.x, newTailPos.y] = tail; 
         gridMap[tail.gridPos.x, tail.gridPos.y] = null;
+        gridMap[newTailPos.x, newTailPos.y] = tail; 
 
         tail.Direction = newTailDir;
         tail.gridPos = newTailPos;
@@ -191,7 +197,7 @@ public class GameManager : MonoBehaviour
         else 
             RefreshPosition(new SnackNode[]{head, body, tail});
 
-        if (tail.prev != head)
+        if (tail.prev != head && !eatedApple)
             SnackListHandler.Remove(tail.prev);
     }
 
