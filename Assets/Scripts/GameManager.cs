@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using DG.Tweening;
 using Random = UnityEngine.Random;
-using System.Runtime.InteropServices.WindowsRuntime;
-
-
 
 
 #if UNITY_EDITOR
@@ -132,77 +130,6 @@ public class GameManager : MonoBehaviour
     }
 
     private void MoveSnack(){
-        var eatedApple = false;
-
-        var tail = SnackTail.Instance;
-        var newTailPos = tail.prev.gridPos;
-        var newTailDir = tail.prev.Direction;
-
-        var head = SnackHead.Instance;
-        var oldPos = head.gridPos;
-        var newPos = head.gridPos + new Vector2Int(head.Direction.y, head.Direction.x);
-        if (CheckOutOfBounds(newPos.x, newPos.y)){
-            if (newPos.x < 0)
-                newPos.x += setting.rows;
-            if (newPos.y < 0)
-                newPos.y += setting.cols;
-            
-            newPos.x %= setting.rows;
-            newPos.y %= setting.cols;
-        }
-
-        if (gridMap[newPos.x, newPos.y] != null){
-            if (gridMap[newPos.x, newPos.y] is SnackNode)
-            {
-                Debug.Log("Game Over");
-                head.Direction = head.next.Direction;
-                return;
-            }
-            else if (gridMap[newPos.x, newPos.y].gameObject.tag == "Apple"){
-                OnEatApple?.Invoke();
-                newTailDir = tail.Direction;
-                newTailPos = tail.gridPos;
-                eatedApple = true;
-            }
-        }
-
-        GameObject gameObj;
-        if (head.Direction != head.next.Direction)
-        {
-            gameObj = Instantiate(snackCornerPrefab, Grid2WorldPosition(oldPos.x, oldPos.y), Quaternion.identity);
-            var corner = gameObj.GetComponent<SnackCorner>();
-            corner.SetRelation(head, head.next);
-        }
-        else
-        {
-            gameObj = Instantiate(snackBodyPrefab, Grid2WorldPosition(oldPos.x, oldPos.y), Quaternion.identity);
-        }
-        var body = gameObj.GetComponent<SnackNode>();
-        body.Direction = head.Direction;
-        body.gridPos = oldPos;
-
-        SnackListHandler.Insert(head, body);
-
-        head.gridPos = newPos;
-
-        gridMap[newPos.x, newPos.y] = head;
-        gridMap[oldPos.x, oldPos.y] = body;
-        gridMap[tail.gridPos.x, tail.gridPos.y] = null;
-        gridMap[newTailPos.x, newTailPos.y] = tail; 
-
-        tail.Direction = newTailDir;
-        tail.gridPos = newTailPos;
-
-        RefreshPosition(new SnackNode[]{head, tail});
-
-        if (tail.prev != head && !eatedApple)
-            SnackListHandler.Remove(tail.prev);
-    }
-
-    private void RefreshPosition(SnackNode[] nodes){
-        foreach (var node in nodes){
-            node.transform.position = Grid2WorldPosition(node.gridPos.x, node.gridPos.y);
-        }
     }
 
     public void RespawnApple(){
