@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     };
 
     [SerializeField] GameObject snackHeadPrefab;
-    [SerializeField] GameObject snackTailPrefab;
+    [SerializeField] GameObject SnakeTailPrefab;
     [SerializeField] GameObject snackBodyPrefab;
     [SerializeField] GameObject snackCornerPrefab;
     [SerializeField] GameObject ApplePrefab;
@@ -75,13 +75,12 @@ public class GameManager : MonoBehaviour
         head.Direction = direction;
         head.gridPos = new Vector2Int(headRow, headCol);
 
-        var tailObj = Instantiate(snackTailPrefab, Grid2WorldPosition(tailRow, tailCol), Quaternion.identity);
-        var tail = tailObj.GetComponent<SnackTail>();
+        var tailObj = Instantiate(SnakeTailPrefab, Grid2WorldPosition(tailRow, tailCol), Quaternion.identity);
+        var tail = tailObj.GetComponent<SnakeTail>();
         gridMap[tailRow, tailCol] = tail;
         tail.Direction = direction;
         tail.gridPos = new Vector2Int(tailRow, tailCol);
 
-        SnackListHandler.Insert(head, tail);
     }
 
 #if UNITY_EDITOR

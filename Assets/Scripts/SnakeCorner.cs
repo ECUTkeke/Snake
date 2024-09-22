@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public class SnackCorner : SnackNode
+public class SnackCorner : SnakeNode
 {
     public Sprite leftUp;
     public Sprite leftDown;
@@ -15,7 +15,7 @@ public class SnackCorner : SnackNode
         set => base._direction = value;
     }
 
-    public void SetRelation(SnackNode prev, SnackNode next)
+    public void SetRelation(SnakeNode prev, SnakeNode next)
     {
         this.prev = prev;
         this.next = next;

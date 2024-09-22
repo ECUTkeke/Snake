@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SnackHead : SnackNode
+public class SnackHead : SnakeNode
 {
     public static SnackHead Instance;
 
