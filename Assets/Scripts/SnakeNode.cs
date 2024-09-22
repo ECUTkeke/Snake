@@ -6,7 +6,6 @@ public class SnakeNode : BaseNode
 {
     public SnakeNode prev;
     public SnakeNode next;
-    public bool IsNewCreated = false;
     protected Vector2Int _direction;
     public virtual Vector2Int Direction
     {

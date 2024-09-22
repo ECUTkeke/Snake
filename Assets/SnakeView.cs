@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class SnakeView 
 {
-    public HashSet<SnakeNode> MovingNodes = new HashSet<SnakeNode>();
-    public HashSet<SnakeNode> WaitedDestory = new HashSet<SnakeNode>();
+    public HashSet<BaseNode> MovingNodes = new HashSet<BaseNode>();
+    public HashSet<BaseNode> WaitedDestory = new HashSet<BaseNode>();
 
     private GameSetting setting;
 
@@ -33,9 +33,12 @@ public class SnakeView
         WaitedDestory.Clear();
         
         foreach (var node in MovingNodes){
-            if (node.IsNewCreated)
+            if (node.IsNewCreated){
                 node.transform.position = Grid2WorldPosition(node.gridPos.x, node.gridPos.y);
-            else{
+                node.IsNewCreated = false;
+            }
+            else
+            {
                 // #TODO: Use lerp
                 node.transform.position = Grid2WorldPosition(node.gridPos.x, node.gridPos.y);
             }

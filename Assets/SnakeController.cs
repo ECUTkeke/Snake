@@ -60,10 +60,10 @@ public class SnakeController : MonoBehaviour
     }
 
 
-    public void MoveNode(SnakeNode node) {
+    public void MoveNode(BaseNode node) {
         view.MovingNodes.Add(node);
     }
-    public void DestroyNode(SnakeNode node) {
+    public void DestroyNode(BaseNode node) {
         view.WaitedDestory.Add(node);
     }
 

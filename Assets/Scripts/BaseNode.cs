@@ -8,4 +8,5 @@ public class BaseNode: MonoBehaviour
     public Sprite right;
 
     public Vector2Int gridPos;
+    public bool IsNewCreated = false;
 }

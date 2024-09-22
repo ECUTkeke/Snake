@@ -9,7 +9,6 @@ public class SnakeModel
     private BaseNode[,] gridMap;
     public BaseNode[,] GridMap => gridMap;
 
-    public Action OnEatApple;    
     public SnakeModel(GameSetting setting){
         gridMap = new BaseNode[setting.rows, setting.cols];
         this.setting = setting;
@@ -53,6 +52,8 @@ public class SnakeModel
         tail.gridPos = new Vector2Int(tailRow, tailCol);
 
         Insert(head, tail);
+
+        RespawnApple();
     }
 
     public void UpdateStick() {
@@ -92,7 +93,7 @@ public class SnakeModel
             }
             else if (gridMap[newPos.x, newPos.y].gameObject.tag == "Apple")
             {
-                OnEatApple?.Invoke();
+                SnakeController.Instance.DestroyNode(gridMap[newPos.x, newPos.y]);
                 newTailDir = tail.Direction;
                 newTailPos = tail.gridPos;
                 eatedApple = true;
@@ -112,6 +113,7 @@ public class SnakeModel
             gameObj = SnakePrefabFactory.Instance.CreateSnakeNode(typeof(SnakeNode));
         }
         var body = gameObj.GetComponent<SnakeNode>();
+        SnakeController.Instance.MoveNode(body);
 
         // Set head, body, tail pos and direction
         body.Direction = head.Direction;
@@ -130,14 +132,12 @@ public class SnakeModel
         tail.Direction = newTailDir;
         tail.gridPos = newTailPos;
 
-
-
         // Do communication with controller
-        if (tail.prev != head && !eatedApple){
+        if (eatedApple)
+            RespawnApple();
+        else if (tail.prev != head){
             SnakeController.Instance.DestroyNode(tail.prev);
             Remove(tail.prev);
-        }else{
-            SnakeController.Instance.MoveNode(body);
         }
     }
 
@@ -155,5 +155,20 @@ public class SnakeModel
         prev.next = next;
         if (next != null)
             next.prev = prev;
+    }
+
+    private void RespawnApple(){
+        int row, col;
+        do
+        {
+            row = Random.Range(0, setting.rows);
+            col = Random.Range(0, setting.cols);
+        } while (gridMap[row, col] != null);
+
+        var apple = SnakePrefabFactory.Instance.CreateApple();
+        var node = apple.GetComponent<BaseNode>();
+        node.gridPos = new Vector2Int(row, col);
+        gridMap[row, col] = node;
+        SnakeController.Instance.MoveNode(node);
     }
 }

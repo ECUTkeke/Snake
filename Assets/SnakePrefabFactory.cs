@@ -37,7 +37,14 @@ public class SnakePrefabFactory : MonoBehaviour
         return obj;
     }
     public GameObject CreateApple() {
-        return Instantiate(applePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        var obj = Instantiate(applePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        obj.GetComponent<BaseNode>().IsNewCreated = true;
+        var render = obj.GetComponent<SpriteRenderer>();
+        var node = obj.GetComponent<BaseNode>();
+        // Four sprite is same, no matter what direction
+        render.sprite = node.up;
+
+        return obj;
     }
 
 }
