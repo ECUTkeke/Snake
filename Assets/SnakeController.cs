@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class SnakeController : MonoBehaviour
@@ -9,12 +8,30 @@ public class SnakeController : MonoBehaviour
 
     private SnakeModel model;
     private SnakeView view;
-    
     private float moveTimer = 0;
+    private Vector2Int? inputDirection = null;
 
     private void Awake() {
+        if (Instance != null)
+            Debug.LogError("More than one SnakeController instance");
+        Instance = this;
+
         model = new SnakeModel(setting);
         view = new SnakeView(setting);
+    }
+    private void ReadInputs(){
+        var currDirection = SnackHead.Instance.Direction;
+        if (inputDirection == null)
+        {
+            if (Input.GetKeyDown(KeyCode.W) && currDirection != Vector2Int.down)
+                inputDirection = Vector2Int.up;
+            else if (Input.GetKeyDown(KeyCode.S) && currDirection != Vector2Int.up)
+                inputDirection = Vector2Int.down;
+            else if (Input.GetKeyDown(KeyCode.A) && currDirection != Vector2Int.right)
+                inputDirection = Vector2Int.left;
+            else if (Input.GetKeyDown(KeyCode.D) && currDirection != Vector2Int.left)
+                inputDirection = Vector2Int.right;
+        }
     }
 
     public void Start() {
@@ -28,10 +45,14 @@ public class SnakeController : MonoBehaviour
     private void Update() {
         if (setting.moveSpeed == 0)        
             return;
-        
+        ReadInputs();     
         moveTimer += Time.deltaTime;
         if (moveTimer >= 1 / setting.moveSpeed) {
             moveTimer = 0;
+            if (inputDirection != null)
+                SnackHead.Instance.Direction = inputDirection.Value;
+            
+            inputDirection = null;
 
             model.UpdateStick();
             view.UpdateStick();

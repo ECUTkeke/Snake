@@ -25,17 +25,22 @@ public class SnakeView
     public void UpdateStick(){
         MovingNodes.Add(SnackHead.Instance);
         MovingNodes.Add(SnakeTail.Instance);
+
+        foreach (var node in WaitedDestory){
+            MovingNodes.Remove(node);
+            GameObject.Destroy(node.gameObject);
+        }
+        WaitedDestory.Clear();
         
         foreach (var node in MovingNodes){
             if (node.IsNewCreated)
                 node.transform.position = Grid2WorldPosition(node.gridPos.x, node.gridPos.y);
             else{
-
+                // #TODO: Use lerp
+                node.transform.position = Grid2WorldPosition(node.gridPos.x, node.gridPos.y);
             }
         }
 
         MovingNodes.Clear();
     }
-
-
 }

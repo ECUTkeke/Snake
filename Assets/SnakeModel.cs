@@ -56,7 +56,7 @@ public class SnakeModel
     }
 
     public void UpdateStick() {
-        // MoveSnack();
+        MoveSnack();
     }
 
     private void MoveSnack(){
@@ -117,22 +117,25 @@ public class SnakeModel
         body.Direction = head.Direction;
         body.gridPos = oldPos;
         head.gridPos = newPos;
-        tail.Direction = newTailDir;
-        tail.gridPos = newTailPos;
 
         Insert(head, body);
 
         // update value in grid map
         gridMap[newPos.x, newPos.y] = head;
         gridMap[oldPos.x, oldPos.y] = body;
+
+        // Calful about the order of the following code
         gridMap[tail.gridPos.x, tail.gridPos.y] = null;
         gridMap[newTailPos.x, newTailPos.y] = tail;
+        tail.Direction = newTailDir;
+        tail.gridPos = newTailPos;
 
-        
+
+
         // Do communication with controller
         if (tail.prev != head && !eatedApple){
-            Remove(tail.prev);
             SnakeController.Instance.DestroyNode(tail.prev);
+            Remove(tail.prev);
         }else{
             SnakeController.Instance.MoveNode(body);
         }
