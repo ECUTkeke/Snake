@@ -26,7 +26,7 @@ public class SnakeModel
     }
 
     public void InitializeSnake(){
-        var headObj = SnackHead.Instance.gameObject;
+        var headObj = SnakeHead.Instance.gameObject;
         var tailObj = SnakeTail.Instance.gameObject;
 
         int headRow = Random.Range(0, setting.rows);
@@ -41,7 +41,7 @@ public class SnakeModel
             tailCol = headCol - direction.x;
         }while(CheckOutOfBounds(tailRow, tailCol));    
 
-        var head = headObj.GetComponent<SnackHead>();
+        var head = headObj.GetComponent<SnakeHead>();
         gridMap[headRow, headCol] = head;
         head.Direction = direction;
         head.gridPos = new Vector2Int(headRow, headCol);
@@ -68,7 +68,7 @@ public class SnakeModel
         var newTailPos = tail.prev.gridPos;
         var newTailDir = tail.prev.Direction;
 
-        var head = SnackHead.Instance;
+        var head = SnakeHead.Instance;
         var oldPos = head.gridPos;
         var newPos = head.gridPos + new Vector2Int(head.Direction.y, head.Direction.x);
         if (CheckOutOfBounds(newPos.x, newPos.y))

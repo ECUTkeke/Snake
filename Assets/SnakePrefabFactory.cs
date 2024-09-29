@@ -20,7 +20,7 @@ public class SnakePrefabFactory : MonoBehaviour
 
     public GameObject CreateSnakeNode(Type type) {
         GameObject obj = null;
-        if (type == typeof(SnackHead)) {
+        if (type == typeof(SnakeHead)) {
             obj=  Instantiate(snackHeadPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         } else if (type == typeof(SnakeTail)) {
             obj= Instantiate(snakeTailPrefab, new Vector3(0, 0, 0), Quaternion.identity);

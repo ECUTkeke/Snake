@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class SnackHead : SnakeNode
+public class SnakeHead : SnakeNode
 {
-    public static SnackHead Instance;
+    public static SnakeHead Instance;
 
     public void Awake()
     {

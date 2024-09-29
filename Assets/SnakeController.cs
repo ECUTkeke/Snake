@@ -20,7 +20,7 @@ public class SnakeController : MonoBehaviour
         view = new SnakeView(setting);
     }
     private void ReadInputs(){
-        var currDirection = SnackHead.Instance.Direction;
+        var currDirection = SnakeHead.Instance.Direction;
         if (inputDirection == null)
         {
             if (Input.GetKeyDown(KeyCode.W) && currDirection != Vector2Int.down)
@@ -35,7 +35,7 @@ public class SnakeController : MonoBehaviour
     }
 
     public void Start() {
-        SnakePrefabFactory.Instance.CreateSnakeNode(typeof(SnackHead));
+        SnakePrefabFactory.Instance.CreateSnakeNode(typeof(SnakeHead));
         SnakePrefabFactory.Instance.CreateSnakeNode(typeof(SnakeTail));
         
         model.InitializeSnake();
@@ -50,7 +50,7 @@ public class SnakeController : MonoBehaviour
         if (moveTimer >= 1 / setting.moveSpeed) {
             moveTimer = 0;
             if (inputDirection != null)
-                SnackHead.Instance.Direction = inputDirection.Value;
+                SnakeHead.Instance.Direction = inputDirection.Value;
             
             inputDirection = null;
 

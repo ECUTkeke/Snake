@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: GameSetting
   m_EditorClassIdentifier: 
   scale: 0.25
-  rows: 20
-  cols: 20
+  rows: 9
+  cols: 9
   moveSpeed: 5
