@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 1808311349}
   - component: {fileID: 1808311353}
   - component: {fileID: 1808311354}
+  - component: {fileID: 1808311355}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -278,6 +279,19 @@ MonoBehaviour:
   snackBodyPrefab: {fileID: 5432022579224832822, guid: 01e26ca860342f94b9a6a508110ba2bb, type: 3}
   snackCornerPrefab: {fileID: 2251689181342866605, guid: 22aaeff5f47c7d94295aee8bdad1830e, type: 3}
   applePrefab: {fileID: 2281313393185372529, guid: 819047c418b8a2f4fa05292bb6c0acc2, type: 3}
+--- !u!114 &1808311355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808311347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e59b4f6ff16b6b941a31fde29d1d36a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eatAppleClip: {fileID: 8300000, guid: 54e38cf9f631d4c4f8cbd95e87f6f8f0, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

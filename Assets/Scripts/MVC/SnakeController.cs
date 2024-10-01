@@ -11,6 +11,8 @@ public class SnakeController : MonoBehaviour
     private float moveTimer = 0;
     private Vector2Int? inputDirection = null;
 
+    private bool isGameOver = false;
+
     private void Awake() {
         if (Instance != null)
             Debug.LogError("More than one SnakeController instance");
@@ -19,6 +21,17 @@ public class SnakeController : MonoBehaviour
         model = new SnakeModel(setting);
         view = new SnakeView(setting);
     }
+    private void OnEnable() {
+        SnakeModel.OnFailed += GameOver;
+    }
+    private void OnDisable() {
+        SnakeModel.OnFailed -= GameOver;
+    }
+
+    private void GameOver(){
+        isGameOver = true;
+    }
+
     private void ReadInputs(){
         var currDirection = SnakeHead.Instance.Direction;
         if (inputDirection == null)
@@ -43,7 +56,7 @@ public class SnakeController : MonoBehaviour
     }
 
     private void Update() {
-        if (setting.moveSpeed == 0)        
+        if (setting.moveSpeed == 0 || isGameOver)        
             return;
         ReadInputs();     
         moveTimer += Time.deltaTime;
