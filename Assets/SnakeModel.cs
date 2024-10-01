@@ -104,8 +104,8 @@ public class SnakeModel
         GameObject gameObj;
         if (head.Direction != head.next.Direction)
         {
-            gameObj = SnakePrefabFactory.Instance.CreateSnakeNode(typeof(SnackCorner)); 
-            var corner = gameObj.GetComponent<SnackCorner>();
+            gameObj = SnakePrefabFactory.Instance.CreateSnakeNode(typeof(SnakeCorner)); 
+            var corner = gameObj.GetComponent<SnakeCorner>();
             corner.SetRelation(head, head.next);
         }
         else

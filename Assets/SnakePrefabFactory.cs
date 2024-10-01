@@ -26,7 +26,7 @@ public class SnakePrefabFactory : MonoBehaviour
             obj= Instantiate(snakeTailPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         } else if (type == typeof(SnakeNode)) {
             obj= Instantiate(snackBodyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        } else if (type == typeof(SnackCorner)) {
+        } else if (type == typeof(SnakeCorner)) {
             obj= Instantiate(snackCornerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         } 
         SnakeNode node = obj?.GetComponent<SnakeNode>();

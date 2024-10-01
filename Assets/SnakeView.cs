@@ -33,8 +33,11 @@ public class SnakeView
         }
         WaitedDestory.Clear();
 
-        CoroutineManager.Instance.StopAllCoroutines();
-        CoroutineManager.Instance.StartManagedCoroutine(MoveLerpCoroutine());
+        // CoroutineManager.Instance.StopAllCoroutines();
+        // CoroutineManager.Instance.StartManagedCoroutine(MoveLerpCoroutine());
+
+        foreach (var node in MovingNodes)
+            node.transform.position = Grid2WorldPosition(node.gridPos.x, node.gridPos.y);
     }
     private IEnumerator MoveLerpCoroutine(){
         var originalPos = new Dictionary<BaseNode, Vector2>();
@@ -58,7 +61,7 @@ public class SnakeView
         while (timer < duration){
             timer += Time.deltaTime;
             foreach (var node in MovingNodes){
-                node.transform.position = Vector2.Lerp(originalPos[node], Grid2WorldPosition(node.gridPos.x, node.gridPos.y), timer / duration);
+                    node.transform.position = Vector2.Lerp(originalPos[node], Grid2WorldPosition(node.gridPos.x, node.gridPos.y), timer / duration);
             }
             yield return null;
         }
