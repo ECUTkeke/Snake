@@ -6,9 +6,6 @@ public class SnakeTail : SnakeNode
 
     public void Awake()
     {
-        if (Instance != null)
-            Debug.LogError("More than one SnakeTail instance");
-
         Instance = this;
     }
 }

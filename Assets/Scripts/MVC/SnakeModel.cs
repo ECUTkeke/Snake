@@ -5,8 +5,6 @@ using Random = UnityEngine.Random;
 
 public class SnakeModel
 {
-    public static Action OnEatApple;
-    public static Action OnFailed;
     private GameSetting setting;
     private BaseNode[,] gridMap;
     public BaseNode[,] GridMap => gridMap;
@@ -90,7 +88,7 @@ public class SnakeModel
             if (gridMap[newPos.x, newPos.y] is SnakeNode)
             {
                 head.Direction = head.next.Direction;
-                OnFailed?.Invoke();
+                SnakeController.Instance.Broadcast_OnGameOver();
                 return;
             }
             else if (gridMap[newPos.x, newPos.y].gameObject.tag == "Apple")
@@ -137,7 +135,7 @@ public class SnakeModel
         // Do communication with controller
         if (eatedApple){
             RespawnApple();
-            OnEatApple?.Invoke();
+            SnakeController.Instance.Broadcast_OnEatApple();
         }
         else if (tail.prev != head){
             SnakeController.Instance.DestroyNode(tail.prev);

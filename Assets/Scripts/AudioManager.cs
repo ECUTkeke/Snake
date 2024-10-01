@@ -7,13 +7,13 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip failedClip;
 
     private void OnEnable() {
-        SnakeModel.OnEatApple += Snake_OnEatApple;
-        SnakeModel.OnFailed += Snake_OnFailed;
+        SnakeController.OnEatApple += Snake_OnEatApple;
+        SnakeController.OnGameOver += Snake_OnFailed;
     } 
 
     private void OnDisable() {
-        SnakeModel.OnEatApple -= Snake_OnEatApple;     
-        SnakeModel.OnFailed -= Snake_OnFailed;
+        SnakeController.OnEatApple -= Snake_OnEatApple;     
+        SnakeController.OnGameOver -= Snake_OnFailed;
     }
 
     private void PlaySound(AudioClip audioClip){

@@ -10,34 +10,35 @@ public class SnakePrefabFactory : MonoBehaviour
     [SerializeField] GameObject snackBodyPrefab;
     [SerializeField] GameObject snackCornerPrefab;
     [SerializeField] GameObject applePrefab;
+    GameObject snakeRoot;
 
     private void Awake() {
         if (Instance != null)
             Debug.LogError("More than one SnakePrefabFactory instance");
 
         Instance = this;
+        Initialize();
     }
 
     public GameObject CreateSnakeNode(Type type) {
         GameObject obj = null;
-        if (type == typeof(SnakeHead)) {
-            obj=  Instantiate(snackHeadPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        } else if (type == typeof(SnakeTail)) {
-            obj= Instantiate(snakeTailPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        } else if (type == typeof(SnakeNode)) {
-            obj= Instantiate(snackBodyPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        } else if (type == typeof(SnakeCorner)) {
-            obj= Instantiate(snackCornerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        } 
+        if (type == typeof(SnakeHead))
+            obj = Instantiate(snackHeadPrefab, new Vector3(0, 0, 0), Quaternion.identity, snakeRoot.transform);
+        else if (type == typeof(SnakeTail))
+            obj = Instantiate(snakeTailPrefab, new Vector3(0, 0, 0), Quaternion.identity, snakeRoot.transform);
+        else if (type == typeof(SnakeNode))
+            obj = Instantiate(snackBodyPrefab, new Vector3(0, 0, 0), Quaternion.identity, snakeRoot.transform);
+        else if (type == typeof(SnakeCorner))
+            obj = Instantiate(snackCornerPrefab, new Vector3(0, 0, 0), Quaternion.identity, snakeRoot.transform);
+
         SnakeNode node = obj?.GetComponent<SnakeNode>();
-        if (node != null) {
+        if (node != null)
             node.IsNewCreated = true;
-        }
 
         return obj;
     }
     public GameObject CreateApple() {
-        var obj = Instantiate(applePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        var obj = Instantiate(applePrefab, new Vector3(0, 0, 0), Quaternion.identity, snakeRoot.transform);
         obj.GetComponent<BaseNode>().IsNewCreated = true;
         var render = obj.GetComponent<SpriteRenderer>();
         var node = obj.GetComponent<BaseNode>();
@@ -47,4 +48,9 @@ public class SnakePrefabFactory : MonoBehaviour
         return obj;
     }
 
+    public void Initialize() {
+        if (snakeRoot != null)
+            Destroy(snakeRoot);
+        snakeRoot = new GameObject("SnakeRoot");
+    }
 }

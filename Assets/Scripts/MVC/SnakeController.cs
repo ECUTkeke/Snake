@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
 
 public class SnakeController : MonoBehaviour
 {
     public static SnakeController Instance;
+    public static Action OnEatApple;
+    public static Action OnGameOver;
 
     [SerializeField] private GameSetting setting;
 
@@ -11,25 +14,39 @@ public class SnakeController : MonoBehaviour
     private float moveTimer = 0;
     private Vector2Int? inputDirection = null;
 
-    private bool isGameOver = false;
+    private bool isRunning = false;
+
+    public void RunGame(){
+        isRunning = true;
+
+        SnakePrefabFactory.Instance.Initialize();
+        SnakePrefabFactory.Instance.CreateSnakeNode(typeof(SnakeHead));
+        SnakePrefabFactory.Instance.CreateSnakeNode(typeof(SnakeTail));
+
+        model = new SnakeModel(setting);
+        view = new SnakeView(setting);
+
+        moveTimer = 0;
+        inputDirection = null;
+
+        model.InitializeSnake(); 
+        view.UpdateStick();
+    }
 
     private void Awake() {
         if (Instance != null)
             Debug.LogError("More than one SnakeController instance");
         Instance = this;
-
-        model = new SnakeModel(setting);
-        view = new SnakeView(setting);
     }
     private void OnEnable() {
-        SnakeModel.OnFailed += GameOver;
+        OnGameOver += GameOver;
     }
     private void OnDisable() {
-        SnakeModel.OnFailed -= GameOver;
+        OnGameOver -= GameOver;
     }
 
     private void GameOver(){
-        isGameOver = true;
+        isRunning = false;
     }
 
     private void ReadInputs(){
@@ -47,16 +64,8 @@ public class SnakeController : MonoBehaviour
         }
     }
 
-    public void Start() {
-        SnakePrefabFactory.Instance.CreateSnakeNode(typeof(SnakeHead));
-        SnakePrefabFactory.Instance.CreateSnakeNode(typeof(SnakeTail));
-        
-        model.InitializeSnake();
-        view.UpdateStick();
-    }
-
     private void Update() {
-        if (setting.moveSpeed == 0 || isGameOver)        
+        if (setting.moveSpeed == 0 || !isRunning)        
             return;
         ReadInputs();     
         moveTimer += Time.deltaTime;
@@ -79,6 +88,13 @@ public class SnakeController : MonoBehaviour
     public void DestroyNode(BaseNode node) {
         view.WaitedDestory.Add(node);
     }
+    public void Broadcast_OnEatApple(){
+        OnEatApple?.Invoke();
+    }
+    public void Broadcast_OnGameOver(){
+        OnGameOver?.Invoke();
+    }
+
 
 #if UNITY_EDITOR && DEBUG
     private Vector2 Grid2WorldPosition(int row, int col){
