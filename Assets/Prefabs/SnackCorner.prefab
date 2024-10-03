@@ -82,9 +82,10 @@ MonoBehaviour:
   down: {fileID: 0}
   left: {fileID: 0}
   right: {fileID: 0}
+  gridPos: {x: 0, y: 0}
+  IsNewCreated: 0
   prev: {fileID: 0}
   next: {fileID: 0}
-  gridPos: {x: 0, y: 0}
   leftUp: {fileID: 21300000, guid: 2eb360ed5f0b9f6439d2d7467241db19, type: 3}
   leftDown: {fileID: 21300000, guid: 92c03c7a1a3d0854ba36c563b5ce1145, type: 3}
   rightUp: {fileID: 21300000, guid: 040484fcd3fd902408382ca1ba1bc409, type: 3}

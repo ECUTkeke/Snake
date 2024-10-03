@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SnakeController : MonoBehaviour
@@ -6,8 +7,10 @@ public class SnakeController : MonoBehaviour
     public static SnakeController Instance;
     public static Action OnEatApple;
     public static Action OnGameOver;
+    public static Action OnGameStart;
 
     [SerializeField] private GameSetting setting;
+    public GameSetting Setting => setting;
 
     private SnakeModel model;
     private SnakeView view;
@@ -31,6 +34,8 @@ public class SnakeController : MonoBehaviour
 
         model.InitializeSnake(); 
         view.UpdateStick();
+
+        OnGameStart?.Invoke();
     }
 
     private void Awake() {
@@ -95,15 +100,15 @@ public class SnakeController : MonoBehaviour
         OnGameOver?.Invoke();
     }
 
+    public  Vector2 Grid2WorldPosition(int row, int col){
+        return view.Grid2WorldPosition(row, col);
+    }
 
 #if UNITY_EDITOR && DEBUG
-    private Vector2 Grid2WorldPosition(int row, int col){
-        var offset = new Vector2(setting.cols, setting.rows) / 2;
-
-        return (new Vector2(col ,row) - offset) * setting.scale;
-    }
     private void OnDrawGizmos()
     {
+        if (view == null)
+            return;
         for (int i = 0; i < setting.rows; i++)
         {
             for (int j = 0; j < setting.cols; j++)

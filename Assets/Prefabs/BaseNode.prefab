@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5007727625573786918}
   - component: {fileID: 5318986166550872318}
   - component: {fileID: -4165470545392807238}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BaseNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,6 +102,8 @@ MonoBehaviour:
   down: {fileID: 0}
   left: {fileID: 0}
   right: {fileID: 0}
+  gridPos: {x: 0, y: 0}
+  IsNewCreated: 0
 --- !u!114 &-4165470545392807238
 MonoBehaviour:
   m_ObjectHideFlags: 0

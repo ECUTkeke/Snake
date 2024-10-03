@@ -82,5 +82,7 @@ MonoBehaviour:
   down: {fileID: 21300000, guid: 6557ae0db93dade45ac6cea5e993bb82, type: 3}
   left: {fileID: 21300000, guid: 8c9a26e7be5030a4893b21b3bf1bbbe9, type: 3}
   right: {fileID: 21300000, guid: 8605532a800400b42a0a83697c4f522f, type: 3}
+  gridPos: {x: 0, y: 0}
+  IsNewCreated: 0
   prev: {fileID: 0}
   next: {fileID: 0}
